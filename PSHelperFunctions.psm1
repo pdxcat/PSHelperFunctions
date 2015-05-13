@@ -36,3 +36,15 @@ Function Get-DomainlessUserName {
     if ($Matches) { $user = $Matches[1] }
     return $user
 }
+
+Function Invoke-32bitFunction {
+    param(
+        [ScriptBlock]$ScriptBlock
+    )
+    if (Test-32Bit) {
+        $Expr = "&$ScriptBlock"
+    } else {
+        $Expr = "$env:SystemRoot\SYSWOW64\WindowsPowerShell\v1.0\powershell.exe {$ScriptBlock}"
+    }
+    return (Invoke-Expression $Expr)
+}
