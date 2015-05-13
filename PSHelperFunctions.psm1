@@ -26,3 +26,13 @@ Function Assert-CompIsOnline {
     $online = Test-Connection -ComputerName $ComputerName -Count 1 -Quiet
     if (-not $online) { throw "Computer $ComputerName is not on.`n" }
 }
+
+Function Get-DomainlessUserName {
+    param(
+        [String]$UserName
+    )
+    $UserName -match '^\w+\\(.+)' | Out-Null
+    $user = $UserName
+    if ($Matches) { $user = $Matches[1] }
+    return $user
+}
