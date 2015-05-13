@@ -18,3 +18,11 @@ Function Assert-64Bit {
     if (-not $is64Bit) { throw "Shell is not 64-bit.`n" }
     return $Is64Bit
 }
+
+Function Assert-CompIsOnline {
+    param(
+        [String]$ComputerName
+    )
+    $online = Test-Connection -ComputerName $ComputerName -Count 1 -Quiet
+    if (-not $online) { throw "Computer $ComputerName is not on.`n" }
+}
